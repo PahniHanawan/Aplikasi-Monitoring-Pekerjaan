@@ -1,61 +1,169 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Aplikasi Monitoring Pekerjaan (Monitoring Proyek Bulog)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+[![Laravel](https://img.shields.io/badge/Laravel-12.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com)
+[![PHP](https://img.shields.io/badge/PHP-^8.2-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://php.net)
+[![Bootstrap](https://img.shields.io/badge/Bootstrap-5.x-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white)](https://getbootstrap.com)
+[![MySQL](https://img.shields.io/badge/Database-MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com)
 
-## About Laravel
+**Sistem Monitoring Pekerjaan (Monitoring Proyek Bulog)** adalah aplikasi berbasis web yang dirancang untuk mempermudah monitoring, pencatatan, dan evaluasi seluruh siklus hidup proyek di lingkungan **Perum BULOG**. Sistem ini mencakup pengelolaan proyek dari tahap perizinan prinsip, administrasi kontrak kerja sama dengan rekanan, pengawasan realisasi fisik berkala, pembayaran termin biaya, hingga pengarsipan dokumen proyek terpusat.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 📌 Fitur Utama
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **📊 Dashboard Eksekutif & Statistik Interaktif**:
+  - Ringkasan cepat metrik utama (*Quick Stats*): total proyek, total kontrak, pagu anggaran, serta realisasi biaya.
+  - Grafik dan diagram progres fisik vs realisasi biaya.
+  - Kalender/event kegiatan proyek dan notifikasi peringatan (*alerts*).
+  - Filter analitik berdasarkan kantor wilayah dan status proyek.
 
-## Learning Laravel
+- **🏢 Manajemen Kantor Wilayah**:
+  - Manajemen kantor wilayah / cabang Bulog sebagai unit kerja pelaksana proyek.
+  - Statistik performa proyek per kantor.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- **📁 Manajemen Data Proyek**:
+  - Perekaman data proyek (nama proyek, deskripsi, tanggal mulai, dll).
+  - Pengelolaan berkas **Izin Prinsip** dengan fitur upload dan download aman.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- **📑 Manajemen Kontrak & SPK**:
+  - Klasifikasi bagian pekerjaan: **Perencana**, **Pelaksana**, **Pengawas**, dan **Pengelola Teknis**.
+  - Pencatatan rekanan/mitra, nomor SPK, pagu biaya, nilai kontrak, jangka waktu pengerjaan, dan masa pemeliharaan.
+  - Penyimpanan dan pengunduhan berkas fisik Surat Perintah Kerja (SPK).
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- **💰 Monitoring Biaya & Termin Pembayaran**:
+  - Pengelolaan termin pembayaran per kontrak secara fleksibel.
+  - Validasi batas maksimal termin agar tidak melebihi nilai kontrak.
+  - Pelacakan histori pengeluaran anggaran proyek.
 
-## Laravel Sponsors
+- **📈 Progres Realisasi Fisik Lapangan**:
+  - Input dan monitoring persentase kemajuan pekerjaan fisik di lapangan secara berkala.
+  - Evaluasi deviasi dan performa ketepatan waktu proyek.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- **📂 Repositori Dokumen Proyek**:
+  - Pengarsipan berkas teknis, laporan mingguan/bulanan, dan dokumentasi foto progres.
+  - Kemudahan akses unduh file dokumen terstruktur per proyek.
 
-### Premium Partners
+- **👥 Manajemen Pengguna & Hak Akses (Multi-Role)**:
+  - Role **Administrator**: Akses menyeluruh ke manajemen user, konfigurasi sistem, dan seluruh modul data.
+  - Role **Staff**: Akses operasional untuk pembaruan data proyek, kontrak, realisasi, dan upload dokumen.
+  - Fitur keamanan: Reset password, penonaktifan user, serta mekanisme *Soft Deletes* dan *Restore*.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+## 🛠️ Tech Stack
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- **Framework**: [Laravel 12](https://laravel.com)
+- **Bahasa Pemrograman**: PHP ^8.2
+- **Basis Data**: MySQL / MariaDB
+- **Frontend / Styling**: Blade Templating, Bootstrap 5, SCSS, JavaScript (AJAX & Fetch API)
+- **Ekspor Dokumen**: [Barryvdh Laravel DomPDF](https://github.com/barryvdh/laravel-dompdf)
+- **Asset Bundling**: [Vite](https://vitejs.dev/)
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 🚀 Panduan Instalasi Lokal
 
-## Security Vulnerabilities
+Ikuti langkah-langkah berikut untuk menjalankan aplikasi di lingkungan pengembangan lokal (misalnya menggunakan Laragon, XAMPP, atau PHP CLI):
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 1. Prasyarat Sistem
+- PHP >= 8.2 (dengan ekstensi `pdo_mysql`, `mbstring`, `openssl`, `fileinfo`)
+- [Composer](https://getcomposer.org/)
+- [Node.js](https://nodejs.org/) & NPM
+- MySQL / MariaDB Server
 
-## License
+### 2. Kloning Repository
+```bash
+git clone https://github.com/PahniHanawan/Aplikasi-Monitoring-Pekerjaan.git
+cd Aplikasi-Monitoring-Pekerjaan
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 3. Install Dependensi
+```bash
+# Dependensi PHP
+composer install
+
+# Dependensi Frontend
+npm install
+```
+
+### 4. Konfigurasi Environment (`.env`)
+Salin file `.env.example` menjadi `.env`:
+```bash
+cp .env.example .env
+```
+
+Buka file `.env` lalu sesuaikan konfigurasi database Anda:
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=monitoring_bulog
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+### 5. Generate Application Key & Storage Link
+```bash
+php artisan key:generate
+php artisan storage:link
+```
+
+### 6. Migrasi Database & Seeder
+Buat database di MySQL (misal: `monitoring_bulog`), lalu jalankan migrasi dan data awal (seeder):
+```bash
+php artisan migrate --seed
+```
+
+### 7. Jalankan Server Pengembangan
+Buka 2 terminal (atau gunakan script dev yang tersedia):
+
+Terminal 1 (Laravel Server):
+```bash
+php artisan serve
+```
+
+Terminal 2 (Vite Assets):
+```bash
+npm run dev
+```
+
+Aplikasi dapat diakses melalui browser di: `http://127.0.0.1:8000`
+
+---
+
+## 🔑 Akun Default (Hasil Seeder)
+
+Setelah menjalankan `php artisan db:seed`, Anda dapat masuk menggunakan akun berikut:
+
+| Peran (Role) | Email | Password |
+|---|---|---|
+| **Administrator** | `admin@bulog.co.id` | `password123` |
+| **Staff Operasional** | `staff@bulog.co.id` | `password123` |
+
+> ⚠️ *Catatan: Segera ubah kata sandi default setelah pertama kali masuk untuk menjaga keamanan data.*
+
+---
+
+## 📁 Struktur Direktori Penting
+
+```plaintext
+├── app/
+│   ├── Http/Controllers/      # Controller Modul (Proyek, Kontrak, Biaya, Realisasi, dll)
+│   └── Models/               # Model Eloquent & Relasi Database
+├── database/
+│   ├── migrations/           # Skema tabel database
+│   └── seeders/              # Data inisial default (Kantor, User, Proyek, dll)
+├── public/
+│   ├── assets/               # File CSS, SCSS, JS, Libs, & Image template
+│   └── storage/              # Simbolik tautan ke file unggahan proyek
+├── resources/
+│   └── views/                # Tampilan Blade template & komponen UI
+└── routes/
+    └── web.php               # Rute aplikasi dan API internal
+```
+
+---
+
+## 📄 Lisensi
+
+Aplikasi ini dikembangkan untuk kebutuhan internal monitoring proyek. Hak cipta dilindungi oleh pengembang dan entitas terkait.

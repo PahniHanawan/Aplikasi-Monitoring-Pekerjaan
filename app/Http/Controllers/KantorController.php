@@ -88,9 +88,10 @@ class KantorController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
+            \Illuminate\Support\Facades\Log::error('Error store kantor: ' . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
 
             return redirect()->back()
-                ->with('error', 'Gagal menambahkan kantor: ' . $e->getMessage())
+                ->with('error', 'Gagal menambahkan kantor. Silakan coba lagi.')
                 ->withInput()
                 ->withErrors(['system_error' => 'Terjadi kesalahan sistem. Silakan coba lagi.']);
         }
@@ -163,7 +164,8 @@ class KantorController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back()->with('error', 'Gagal mengupdate kantor: ' . $e->getMessage())->withInput();
+            \Illuminate\Support\Facades\Log::error('Error update kantor: ' . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
+            return redirect()->back()->with('error', 'Gagal mengupdate kantor. Silakan coba lagi.')->withInput();
         }
     }
 
@@ -184,7 +186,8 @@ class KantorController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->route('kantor.index')->with('error', 'Gagal menghapus kantor: ' . $e->getMessage());
+            \Illuminate\Support\Facades\Log::error('Error destroy kantor: ' . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
+            return redirect()->route('kantor.index')->with('error', 'Gagal menghapus kantor. Silakan coba lagi.');
         }
     }
 

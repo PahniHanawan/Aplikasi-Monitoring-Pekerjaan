@@ -157,10 +157,10 @@ class KontrakController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error('Error creating kontrak: ' . $e->getMessage());
+            Log::error('Error creating kontrak: ' . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
 
             return back()->withInput()
-                ->with('error', '❌ Gagal menyimpan kontrak: ' . $e->getMessage());
+                ->with('error', '❌ Gagal menyimpan kontrak. Silakan coba lagi atau hubungi administrator.');
         }
     }
 
@@ -360,10 +360,10 @@ class KontrakController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error('Error updating kontrak: ' . $e->getMessage());
+            Log::error('Error updating kontrak: ' . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
 
             return back()->withInput()
-                ->with('error', '❌ Gagal memperbarui kontrak: ' . $e->getMessage());
+                ->with('error', '❌ Gagal memperbarui kontrak. Silakan coba lagi atau hubungi administrator.');
         }
     }
 
@@ -390,8 +390,9 @@ class KontrakController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
+            Log::error('Error deleting kontrak: ' . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
             return redirect()->route('kontrak.index')
-                ->with('error', '❌ Gagal menghapus kontrak: ' . $e->getMessage());
+                ->with('error', '❌ Gagal menghapus kontrak. Silakan coba lagi.');
         }
     }
 
@@ -471,7 +472,8 @@ class KontrakController extends Controller
             return back()->with('success', '✅ Termin berhasil ditambahkan');
 
         } catch (\Exception $e) {
-            return back()->with('error', '❌ Gagal menambah termin: ' . $e->getMessage());
+            Log::error('Error tambah termin: ' . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
+            return back()->with('error', '❌ Gagal menambah termin. Silakan coba lagi.');
         }
     }
 
@@ -484,7 +486,8 @@ class KontrakController extends Controller
             $biaya->delete();
             return back()->with('success', '✅ Termin berhasil dihapus');
         } catch (\Exception $e) {
-            return back()->with('error', '❌ Gagal menghapus termin: ' . $e->getMessage());
+            Log::error('Error hapus termin: ' . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
+            return back()->with('error', '❌ Gagal menghapus termin. Silakan coba lagi.');
         }
     }
 

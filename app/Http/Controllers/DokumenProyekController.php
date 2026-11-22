@@ -19,14 +19,6 @@ class DokumenProyekController extends Controller
                 return $proyek->ready_for_dokumen;
             });
 
-        // Debug: Log progress untuk setiap proyek
-        foreach ($proyeks as $proyek) {
-            Log::info("Proyek {$proyek->id} - Ready: {$proyek->ready_for_dokumen}", [
-                'progress_summary' => $proyek->progress_summary,
-                'progress_detail' => $proyek->progress_detail
-            ]);
-        }
-
         // Proyek yang butuh dokumen (sudah 100% tapi dokumen belum lengkap)
         $proyekButuhDokumen = $proyeks->filter(function($proyek) {
             return !$proyek->dokumen_lengkap;
@@ -44,15 +36,6 @@ class DokumenProyekController extends Controller
     {
         // Load data yang diperlukan
         $proyek->load(['kontraks.realisasis', 'kontraks.biayas', 'dokumen']);
-
-        // Debug information
-        Log::info("Create Dokumen - Proyek {$proyek->id}", [
-            'ready_for_dokumen' => $proyek->ready_for_dokumen,
-            'progress_terendah' => $proyek->progress_terendah,
-            'progress_summary' => $proyek->progress_summary,
-            'progress_detail' => $proyek->progress_detail,
-            'dokumen_status' => $proyek->dokumen_status
-        ]);
 
         // Cek apakah proyek ready untuk upload dokumen
         if (!$proyek->ready_for_dokumen) {
@@ -99,9 +82,10 @@ class DokumenProyekController extends Controller
             $existingDokumen->delete();
         }
 
-        // Upload file
+        // Upload file dengan sanitasi nama file
         $file = $request->file('dokumen');
-        $filename = time() . '_' . $file->getClientOriginalName();
+        $sanitizedOriginalName = preg_replace('/[^a-zA-Z0-9._-]/', '_', $file->getClientOriginalName());
+        $filename = time() . '_' . $sanitizedOriginalName;
         $path = $file->storeAs('dokumen-proyek', $filename);
 
         // Simpan ke database
@@ -110,7 +94,7 @@ class DokumenProyekController extends Controller
             'kontrak_id' => $kontrak->id,
             'jenis_dokumen' => $request->jenis_dokumen,
             'nama_file' => $filename,
-            'original_filename' => $file->getClientOriginalName(),
+            'original_filename' => $sanitizedOriginalName,
             'file_size' => $file->getSize(),
             'keterangan' => $request->keterangan,
             'tanggal_upload' => now(),

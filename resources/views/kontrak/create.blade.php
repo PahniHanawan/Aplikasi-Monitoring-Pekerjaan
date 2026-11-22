@@ -309,7 +309,7 @@ document.addEventListener('DOMContentLoaded', function() {
         Swal.fire({
             icon: 'success',
             title: 'Berhasil!',
-            html: `{!! session('success') !!}`,
+            text: @json(session('success')),
             timer: 3000,
             showConfirmButton: false,
             timerProgressBar: true
@@ -320,7 +320,7 @@ document.addEventListener('DOMContentLoaded', function() {
         Swal.fire({
             icon: 'error',
             title: 'Gagal!',
-            html: `{!! session('error') !!}`,
+            text: @json(session('error')),
             timer: 4000,
             showConfirmButton: true
         });
@@ -328,10 +328,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     @if ($errors->any())
         hasValidationErrors = true;
-        let errorMessages = '';
-        @foreach ($errors->all() as $error)
-            errorMessages += `• {!! $error !!}<br>`;
-        @endforeach
+        let errorList = @json($errors->all());
+        let errorMessages = errorList.map(err => '• ' + err).join('<br>');
 
         Swal.fire({
             icon: 'error',

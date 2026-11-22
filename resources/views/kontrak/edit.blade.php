@@ -14,7 +14,7 @@
                 @if (session('error'))
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <i class="bi bi-exclamation-triangle me-2"></i>
-                        {!! session('error') !!}
+                        {{ session('error') }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 @endif
@@ -445,7 +445,7 @@ document.addEventListener('DOMContentLoaded', function() {
         Swal.fire({
             icon: 'success',
             title: 'Berhasil!',
-            html: `{!! session('success') !!}`,
+            text: @json(session('success')),
             timer: 3000,
             showConfirmButton: false,
             timerProgressBar: true
@@ -454,10 +454,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     @if ($errors->any())
         hasValidationErrors = true;
-        let errorMessages = '';
-        @foreach ($errors->all() as $error)
-            errorMessages += `• {!! $error !!}<br>`;
-        @endforeach
+        let errorList = @json($errors->all());
+        let errorMessages = errorList.map(err => '• ' + err).join('<br>');
 
         Swal.fire({
             icon: 'error',

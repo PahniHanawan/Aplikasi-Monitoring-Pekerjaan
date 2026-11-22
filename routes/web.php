@@ -17,9 +17,11 @@ Route::get('/', function () {
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-    Route::post('/login', [AuthController::class, 'login']);
-    Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,1');
+    // Public register dinonaktifkan untuk mencegah pembuatan akun tanpa otorisasi.
+    // Akun dibuat oleh Administrator melalui menu Manajemen User (/users).
+    // Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+    // Route::post('/register', [AuthController::class, 'register'])->middleware('throttle:3,1');
 });
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -78,15 +80,15 @@ Route::middleware('auth')->group(function () {
         Route::get('/kontrak-by-kantor/{kantorId}', function($kantorId) {
             $kontraks = \App\Models\Kontrak::whereHas('proyek', function($q) use ($kantorId) {
                 $q->where('kantor_id', $kantorId);
-            })->with('proyek')->get();
+            })->with(['proyek:id,nama_proyek,kantor_id'])->get();
 
             return response()->json($kontraks);
-        })->name('api.kontrak-by-kantor');
+        })->whereNumber('kantorId')->name('api.kontrak-by-kantor');
 
         // Stats
         Route::get('/kantor-stats', [KantorController::class, 'getStats'])->name('api.kantor-stats');
-        Route::get('/proyek-by-kantor/{kantorId}', [ProyekController::class, 'getByKantor'])->name('api.proyek-by-kantor');
-        Route::get('/kontrak-by-proyek/{proyekId}', [KontrakController::class, 'getByProyek'])->name('api.kontrak-by-proyek');
+        Route::get('/proyek-by-kantor/{kantorId}', [ProyekController::class, 'getByKantor'])->whereNumber('kantorId')->name('api.proyek-by-kantor');
+        Route::get('/kontrak-by-proyek/{proyekId}', [KontrakController::class, 'getByProyek'])->whereNumber('proyekId')->name('api.kontrak-by-proyek');
         Route::get('/realisasi-stats', [RealisasiController::class, 'getStats'])->name('api.realisasi-stats');
         Route::get('/dokumen-stats', [DokumenProyekController::class, 'getStats'])->name('api.dokumen-stats');
     });

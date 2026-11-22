@@ -446,10 +446,10 @@
             new Chart(ctxProyek, {
                 type: 'bar',
                 data: {
-                    labels: {!! json_encode($kantorNames ?? []) !!},
+                    labels: @json($kantorNames ?? []),
                     datasets: [{
                         label: 'Jumlah Proyek',
-                        data: {!! json_encode($proyekPerKantor ?? []) !!},
+                        data: @json($proyekPerKantor ?? []),
                         backgroundColor: 'rgba(59, 130, 246, 0.8)',
                         borderColor: 'rgba(59, 130, 246, 1)',
                         borderWidth: 1,
@@ -480,10 +480,10 @@
             new Chart(ctxNilai, {
                 type: 'bar',
                 data: {
-                    labels: {!! json_encode($kantorNames ?? []) !!},
+                    labels: @json($kantorNames ?? []),
                     datasets: [{
                         label: 'Nilai Kontrak (Miliar)',
-                        data: {!! json_encode($nilaiKontrakPerKantor ?? []) !!},
+                        data: @json($nilaiKontrakPerKantor ?? []),
                         backgroundColor: 'rgba(34, 197, 94, 0.8)',
                         borderColor: 'rgba(34, 197, 94, 1)',
                         borderWidth: 1,
@@ -518,9 +518,9 @@
             new Chart(ctxStatus, {
                 type: 'doughnut',
                 data: {
-                    labels: {!! json_encode($statusLabels ?? ['Belum Realisasi', 'Sedang Berjalan', 'Selesai']) !!},
+                    labels: @json($statusLabels ?? ['Belum Realisasi', 'Sedang Berjalan', 'Selesai']),
                     datasets: [{
-                        data: {!! json_encode($statusCounts ?? [0,0,0]) !!},
+                        data: @json($statusCounts ?? [0,0,0]),
                         backgroundColor: [
                             'rgba(107, 114, 128, 0.9)',
                             'rgba(245, 158, 11, 0.9)',
@@ -556,10 +556,10 @@
             new Chart(ctxTrend, {
                 type: 'line',
                 data: {
-                    labels: {!! json_encode($trendLabels ?? ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des']) !!},
+                    labels: @json($trendLabels ?? ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des']),
                     datasets: [{
                         label: 'Kontrak Baru',
-                        data: {!! json_encode($trendData ?? array_fill(0, 12, 0)) !!},
+                        data: @json($trendData ?? array_fill(0, 12, 0)),
                         backgroundColor: 'rgba(14, 165, 233, 0.1)',
                         borderColor: 'rgba(14, 165, 233, 1)',
                         borderWidth: 2,
@@ -607,7 +607,7 @@
                     week: 'Minggu',
                     day: 'Hari'
                 },
-                events: {!! json_encode($calendarEvents) !!},
+                events: @json($calendarEvents ?? []),
                 eventContent: function(arg) {
                     return {
                         html: `

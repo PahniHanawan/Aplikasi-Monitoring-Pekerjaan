@@ -13,8 +13,6 @@ class BiayaController extends Controller
 {
     public function getKontrak($kantorId)
     {
-        Log::info('getKontrak called with kantorId: ' . $kantorId);
-
         try {
             $kontraks = Kontrak::whereHas('proyek', function ($q) use ($kantorId) {
                     $q->where('kantor_id', $kantorId);
@@ -32,12 +30,10 @@ class BiayaController extends Controller
                     ];
                 });
 
-            Log::info('Found kontraks: ' . $kontraks->count());
-
             return response()->json($kontraks);
 
         } catch (\Exception $e) {
-            Log::error('Error in getKontrak: ' . $e->getMessage());
+            Log::error('Error in getKontrak: ' . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
             return response()->json([], 500);
         }
     }

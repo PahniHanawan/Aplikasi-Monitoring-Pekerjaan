@@ -57,13 +57,13 @@ class AuthController extends Controller
         return view('auth.register');
     }
 
-    // Process Register - DIPERBAIKI untuk menambahkan is_active
+    // Process Register - Default role staff & non-aktif (harus disetujui admin)
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
-            'password' => 'required|min:6|confirmed',
+            'password' => ['required', 'confirmed', \Illuminate\Validation\Rules\Password::defaults()],
         ]);
 
         if ($validator->fails()) {
@@ -76,13 +76,11 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => 'admin',
-            'is_active' => true, // Default aktif saat registrasi
+            'role' => 'staff',
+            'is_active' => false,
         ]);
 
-        Auth::login($user);
-
-        return redirect('/dashboard')->with('success', 'Registrasi berhasil!');
+        return redirect('/login')->with('success', 'Registrasi berhasil! Akun Anda sedang menunggu verifikasi oleh administrator.');
     }
 
     // Logout

@@ -134,7 +134,7 @@ class RealisasiController extends Controller
 
             return response()->json([
                 'success' => false,
-                'message' => 'Terjadi kesalahan saat memproses data: ' . $e->getMessage(),
+                'message' => 'Terjadi kesalahan saat memproses data.',
             ], 500);
         }
     }
@@ -180,24 +180,27 @@ class RealisasiController extends Controller
         try {
             DB::beginTransaction();
 
-            // Debug: Log data
-            Log::info('Creating realisasi:', $request->all());
-
             $existingRealisasi = Realisasi::where('kontrak_id', $request->kontrak_id)->first();
 
             if ($existingRealisasi) {
                 return back()->withInput()->with('error', 'Kontrak ini sudah memiliki realisasi. Gunakan fitur edit untuk mengubah realisasi.');
             }
 
-            $realisasi = Realisasi::create($request->all());
+            $realisasi = Realisasi::create($request->only([
+                'kontrak_id',
+                'progress_persen',
+                'nilai_realisasi',
+                'tanggal_realisasi',
+                'keterangan',
+            ]));
 
             DB::commit();
 
             return redirect()->route('realisasi.index')->with('success', 'Realisasi berhasil ditambahkan!');
         } catch (\Throwable $e) {
             DB::rollBack();
-            Log::error('Error store Realisasi: ' . $e->getMessage());
-            return back()->withInput()->with('error', 'Gagal menambahkan realisasi: ' . $e->getMessage());
+            Log::error('Error store Realisasi: ' . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
+            return back()->withInput()->with('error', 'Gagal menambahkan realisasi. Silakan periksa kembali data Anda atau hubungi administrator.');
         }
     }
 
@@ -229,15 +232,21 @@ class RealisasiController extends Controller
         try {
             DB::beginTransaction();
 
-            $realisasi->update($request->all());
+            $realisasi->update($request->only([
+                'kontrak_id',
+                'progress_persen',
+                'nilai_realisasi',
+                'tanggal_realisasi',
+                'keterangan',
+            ]));
 
             DB::commit();
 
             return redirect()->route('realisasi.index')->with('success', 'Realisasi berhasil diupdate!');
         } catch (\Throwable $e) {
             DB::rollBack();
-            Log::error('Error update Realisasi: ' . $e->getMessage());
-            return back()->withInput()->with('error', 'Gagal mengupdate realisasi: ' . $e->getMessage());
+            Log::error('Error update Realisasi: ' . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
+            return back()->withInput()->with('error', 'Gagal mengupdate realisasi. Silakan coba lagi.');
         }
     }
 
@@ -252,8 +261,8 @@ class RealisasiController extends Controller
             return redirect()->route('realisasi.index')->with('success', 'Realisasi berhasil dihapus!');
         } catch (\Throwable $e) {
             DB::rollBack();
-            Log::error('Error destroy Realisasi: ' . $e->getMessage());
-            return redirect()->route('realisasi.index')->with('error', 'Gagal menghapus realisasi: ' . $e->getMessage());
+            Log::error('Error destroy Realisasi: ' . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
+            return redirect()->route('realisasi.index')->with('error', 'Gagal menghapus realisasi. Silakan coba lagi.');
         }
     }
 
